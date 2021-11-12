@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  app:
+    container_name: newchatbot-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    volumes:
+      - ./src:/application
+      - ./config/backend/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./config/backend/php/xdebug/xdebug-linux.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./config/backend/apache2/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    depends_on:
+      - database
+  
+  database:
+    container_name: newchatbotdb
+    image: mysql:8
+    environment:
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=chatbotdb
+      - MYSQL_USER=dbuser
+    ports:
+      - "33306:3306"
+    volumes:
+      - newchatbot-volume:/var/lib/mysql
+
+volumes:
+  newchatbot-volume:
+
+
+

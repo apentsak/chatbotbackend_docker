@@ -11,6 +11,8 @@ composer install -n
 # php artisan migrate
 # php artisan optimize:clear
 php artisan key:generate
+php artisan migrate
+php artisan db:seed
 
 # Keep php-process alive
 # exec supervisord -c /etc/supervisor/sv.conf
@@ -20,4 +22,4 @@ php artisan key:generate
 rm -f /var/run/apache2/apache2.pid
 
 # Start Apache in foreground
-/usr/sbin/apache2 -DFOREGROUND
+/usr/sbin/apachectl -DFOREGROUND

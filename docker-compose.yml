@@ -9,11 +9,15 @@ services:
       - 8080:80
     volumes:
       - ./src:/application
+      - ./config/backend/entrypoint.local.sh:/entrypoint/entrypoint.sh
       - ./config/backend/php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./config/backend/php/xdebug/xdebug-linux.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - ./config/backend/apache2/000-default.conf:/etc/apache2/sites-available/000-default.conf
     depends_on:
       - database
+    entrypoint:
+      - sh
+      - /entrypoint/entrypoint.sh
   
   database:
     container_name: newchatbotdb

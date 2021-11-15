@@ -39,6 +39,15 @@ RUN docker-php-ext-install \
         zip \
         gd
 
+RUN apt-get update -y --allow-insecure-repositories --allow-releaseinfo-change \
+      && apt-get install -y dos2unix \
+      && apt-get autoremove -y \
+      && apt-get clean -y 
+
+COPY config/backend/entrypoint.local.sh /entrypoint/entrypoint.sh
+
+RUN dos2unix /entrypoint/entrypoint.sh && apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /application
 
 #SETUP CONFIGS
